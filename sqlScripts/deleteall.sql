@@ -1,0 +1,1 @@
+drop database airplain_management
