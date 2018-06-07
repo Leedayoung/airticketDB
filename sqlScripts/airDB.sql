@@ -1,2 +1,2 @@
-CREATE DATABASE airplain_management;
-USE airplain_management;
+CREATE DATABASE 11739592_airticketDB;
+USE 11739592_airticketDB;

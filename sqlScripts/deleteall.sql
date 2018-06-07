@@ -1,1 +1,1 @@
-drop database airplain_management
+drop database 11739592_airticektDB
