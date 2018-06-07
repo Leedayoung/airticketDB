@@ -1,4 +1,5 @@
 CREATE TABLE airport(
-	name VARCHAR(30) NOT NULL primary key,
-	city VARCHAR(30) NOT NULL
+	PID INT NOT NULL primary key,
+	PName VARCHAR(30) NOT NULL,
+	PCity VARCHAR(30) NOT NULL
 );
