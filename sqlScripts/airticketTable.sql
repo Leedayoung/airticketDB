@@ -1,12 +1,12 @@
 CREATE TABLE airticket(
-	clientID VARCHAR(30) NOT NULL,
-	airline VARCHAR(30) NOT NULL,
-	departTime DATETIME NOT NULL,
-	price INT NOT NULL,
-	seat INT NOT NULL,
-	departAirport VARCHAR(30) NOT NULL,
-	arriveAirport VARCHAR(30) NOT NULL,
-	arriveTime DATETIME NOT NULL,
+	CID INT NOT NULL,
+	LID VARCHAR(30) NOT NULL,
+	TDTime DATETIME NOT NULL,
+	TATime DATETIME NOT NULL,
+	TPrice INT NOT NULL,
+	TSeat INT NOT NULL,
+	PDID INT NOT NULL,
+	PAID INT NOT NULL,
 
-	primary key(clientID,airline,departTime)
+	primary key(CID,LID,TDTime)
 );
