@@ -99,12 +99,12 @@ public class AddTicket extends HttpServlet {
 			if (TDDate_text == null || TDTime_text == null || TADate_text == null || TATime_text == null)
 				throw new IllegalArgumentException("Please enter the dates and times");
 			
-			Timestamp TDDate;
-			Timestamp TADate;
+			Timestamp TDTime;
+			Timestamp TATime;
 			try {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-				TDDate = new Timestamp(formatter.parse(TDDate_text + " " + TDTime_text + ":00").getTime());
-				TADate = new Timestamp(formatter.parse(TADate_text + " " + TATime_text + ":00").getTime());
+				TDTime = new Timestamp(formatter.parse(TDDate_text + " " + TDTime_text + ":00").getTime());
+				TATime = new Timestamp(formatter.parse(TADate_text + " " + TATime_text + ":00").getTime());
 			}
 			catch (ParseException exc){
 				throw new IllegalArgumentException("Illegal Date Format (yyyy.MM.dd hh:mm)");
@@ -149,8 +149,8 @@ public class AddTicket extends HttpServlet {
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			pStmt.setInt(1, cid);
 			pStmt.setInt(2, LID);
-			pStmt.setTimestamp(3, TDDate);
-			pStmt.setTimestamp(4, TADate);
+			pStmt.setTimestamp(3, TDTime);
+			pStmt.setTimestamp(4, TATime);
 			pStmt.setInt(5, TPrice);
 			pStmt.setInt(6, TSeat);
 			pStmt.setInt(7, PDID);
