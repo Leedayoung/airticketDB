@@ -11,6 +11,6 @@ CREATE TABLE airticket(
 	primary key(CID,LID,TDTime)
 );
 
-INSERT INTO airticket(CID, LID, TDTime, TATime, TPrice, TSeat, PDID, PAID)
+INSERT INTO airticket(CID, LID, TDTime, TATime, TMileage, TSeat, PDID, PAID)
 	VALUES (1, 180, "2018-03-05 01:01:00", "2018-03-05 07:02:00", 100, 200, 1, 2),
 	(1, 220, "2017-06-07 14:01:00", "2017-06-08 01:02:00", 150, 138, 2, 1);

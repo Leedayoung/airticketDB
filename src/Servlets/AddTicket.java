@@ -132,26 +132,26 @@ public class AddTicket extends HttpServlet {
 			catch (NumberFormatException exc){
 				throw new IllegalArgumentException("Illegal seat number");
 			}
+
+			String TMileage_text = request.getParameter("TMileage");
+			int TMileage;
 			
-			String TPrice_text = request.getParameter("TPrice");
-			int TPrice;
-			
-			if (TPrice_text == null)
-				throw new IllegalArgumentException("Please enter the price of the ticket");
+			if (TMileage_text == null)
+				throw new IllegalArgumentException("Please enter the mileage of the ticket");
 			try {
-				TPrice = Integer.valueOf(TPrice_text);
+				TMileage = Integer.valueOf(TMileage_text);
 			}
 			catch (NumberFormatException exc) {
-				throw new IllegalArgumentException("Illegal price");
+				throw new IllegalArgumentException("Illegal mileage");
 			}
 			
-			pStmt = conn.prepareStatement("INSERT INTO airticket(CID, LID, TDTime, TATime, TPrice, TSeat, PDID, PAID)"
+			pStmt = conn.prepareStatement("INSERT INTO airticket(CID, LID, TDTime, TATime, TMileage, TSeat, PDID, PAID)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			pStmt.setInt(1, cid);
 			pStmt.setInt(2, LID);
 			pStmt.setTimestamp(3, TDTime);
 			pStmt.setTimestamp(4, TATime);
-			pStmt.setInt(5, TPrice);
+			pStmt.setInt(5, TMileage);
 			pStmt.setInt(6, TSeat);
 			pStmt.setInt(7, PDID);
 			pStmt.setInt(8, PAID);

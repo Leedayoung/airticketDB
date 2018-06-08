@@ -15,7 +15,7 @@
 	The arrival time: <input type="time" name="TATime"/> <br>
 	The airline name: <input type="text" name="LName"/> <br>
 	The seat number: <input type="number" name="TSeat"/> <br>
-	The price of the airticket: <input type="number" name="TPrice"/> EUR<br>
+	The Mileage of the airticket: <input type="number" name="TMileage"/> <br>
 	<input type="submit" value="Add Ticket"/>
 </form>
 </body>
