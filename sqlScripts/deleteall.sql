@@ -1,1 +1,1 @@
-drop database 11739592_airticektDB
+drop database 11739592_airticketDB
