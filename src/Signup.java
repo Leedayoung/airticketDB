@@ -35,7 +35,6 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String name = request.getParameter("CName");
 		String age_text = request.getParameter("CAge");
 		String gender_text = request.getParameter("CGender");
@@ -79,7 +78,7 @@ public class Signup extends HttpServlet {
 		Integer cid = null;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/11739592_airticketDB?serverTimezone=UTC", "student", "student");
 			

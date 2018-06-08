@@ -7,6 +7,6 @@
 <title>Tickets</title>
 </head>
 <body>
-you are ${ param.CID }.
+Hello ${ CName }! You are ${ param.CID }.
 </body>
 </html>
