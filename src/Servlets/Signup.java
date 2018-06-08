@@ -1,3 +1,4 @@
+package Servlets;
 
 
 import java.io.IOException;
@@ -10,7 +11,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,16 +18,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Tickets
+ * Servlet implementation class Signup
  */
-@WebServlet("/Tickets")
-public class Tickets extends HttpServlet {
+@WebServlet("/Signup")
+public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Tickets() {
+    public Signup() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,44 +36,74 @@ public class Tickets extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Logger logger = Logger.getLogger(Tickets.class.getName());
-
-		String cid_text = request.getParameter("CID");
-		Integer cid = null;
+		String name = request.getParameter("CName");
+		String age_text = request.getParameter("CAge");
+		String gender_text = request.getParameter("CGender");
+		String nation = request.getParameter("CNation");
 		
+		int age;
+		boolean gender;
+
 		try {
-			if (cid_text == null)
-				throw new IllegalArgumentException("Illegal CID");
-			cid = Integer.valueOf(cid_text);
+			if (name == null || age_text == null || gender_text == null || nation == null)
+				throw new IllegalArgumentException("Illegal Name");
+			
+			try {
+				age = Integer.valueOf(age_text);
+			}
+			catch (NumberFormatException exc) {
+				throw new IllegalArgumentException("Illegal Age");
+			}
+			
+			switch (gender_text) {
+			case "male":
+				gender = true;
+				break;
+
+			case "female":
+				gender = false;
+				break;
+
+			default:
+				throw new IllegalArgumentException("Illegal Gender");
+			}
 		}
-		catch (IllegalArgumentException exc){
+		catch (IllegalArgumentException exc) {
 			response.sendRedirect("/airticketDB/index.html");
 			return;
 		}
+		
+		Logger logger = Logger.getLogger(Signup.class.getName());
 
 		Connection conn = null;
+		Integer cid = null;
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/11739592_airticketDB?serverTimezone=UTC&useSSL=false", "student", "student");
 			
 			Statement Stmt = conn.createStatement();
-			ResultSet rs = Stmt.executeQuery("SELECT CName FROM client WHERE client.CID = " + cid.toString());
-			String name = null;
-			
+			ResultSet rs = Stmt.executeQuery("SELECT MAX(CID) FROM client");
+
 			if (rs.next())
-				name = rs.getString(1);
+				cid = rs.getInt(1);
+				if (cid != null)
+					cid++;
 
-			if (name == null)
-				throw new IllegalArgumentException("Illegal CID");
+			if (cid == null)
+				cid = 1;
 			
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/tickets.jsp");
-			request.setAttribute("CName", name);
-
-			view.forward(request, response);
-		}
-		catch(IllegalArgumentException exc) {
-			response.sendRedirect("/airticketDB/index.html");
+			PreparedStatement pStmt = conn.prepareStatement("INSERT INTO client(CID, CName, CAge, CGender, CNation) VALUES (?,?,?,?,?)");
+			pStmt.setInt(1, cid);
+			pStmt.setString(2, name);
+			pStmt.setInt(3, age);
+			pStmt.setBoolean(4, gender);
+			pStmt.setString(5, nation);
+			
+			pStmt.execute();
+			
+			response.sendRedirect("/airticketDB/TicketTable?CID=" + Integer.toString(cid));
 		}
 		catch(ClassNotFoundException | SQLException exc) {
 			if (exc instanceof ClassNotFoundException)
