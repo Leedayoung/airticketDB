@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -74,13 +73,6 @@ public class DeleteTicket extends HttpServlet {
 			if (PDCity == null)
 				throw new IllegalArgumentException("Please enter the departure city");
 			
-			PreparedStatement pStmt = conn.prepareStatement("SELECT PID FROM airport WHERE PCity=?");
-			pStmt.setString(1, PDCity);
-			ResultSet rs = pStmt.executeQuery();
-			if (!rs.next())
-				throw new IllegalArgumentException("No such airport (Departure)");
-			int PDID = rs.getInt("PID");
-
 			String TDDate_text = request.getParameter("TDDate");
 			String TDTime_text = request.getParameter("TDTime");	
 			
@@ -96,13 +88,15 @@ public class DeleteTicket extends HttpServlet {
 				throw new IllegalArgumentException("Illegal Date Format (yyyy.MM.dd hh:mm)");
 			}
 
-			pStmt = conn.prepareStatement("DELETE FROM airticket WHERE CID = ? and PDID = ? and TDTime = ?");
+			PreparedStatement pStmt = conn.prepareStatement("DELETE FROM airticket "
+					+ "WHERE CID = ? and TDTime = ? "
+					+ "and PDID IN (Select PID FROM airport WHERE PCity = ?)");
 			pStmt.setInt(1, cid);
-			pStmt.setInt(2, PDID);
-			pStmt.setTimestamp(3, TDTime);
+			pStmt.setTimestamp(2, TDTime);
+			pStmt.setString(3, PDCity);
 			
 			if (pStmt.executeUpdate() == 0)
-				throw new IllegalArgumentException("No such ticket");
+				throw new IllegalArgumentException("No such ticket. Please check a airport name");
 			
 			response.sendRedirect("/airticketDB/TicketTable?CID=" + cid.toString());
 		}
