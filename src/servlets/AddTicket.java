@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -77,20 +76,6 @@ public class AddTicket extends HttpServlet {
 			else if (PACity == null)
 				throw new IllegalArgumentException("Please enter the arrival city");
 			
-			PreparedStatement pStmt = conn.prepareStatement("SELECT PID FROM airport WHERE PCity=?");
-			
-			pStmt.setString(1, PDCity);
-			ResultSet rs = pStmt.executeQuery();
-			if (!rs.next())
-				throw new IllegalArgumentException("No such airport (Departure)");
-			int PDID = rs.getInt("PID");
-			
-			pStmt.setString(1, PACity);
-			rs = pStmt.executeQuery();
-			if (!rs.next())
-				throw new IllegalArgumentException("No such airport (Arrival)");
-			int PAID = rs.getInt("PID");
-
 			String TDDate_text = request.getParameter("TDDate");
 			String TDTime_text = request.getParameter("TDTime");	
 			String TADate_text = request.getParameter("TADate");
@@ -113,13 +98,6 @@ public class AddTicket extends HttpServlet {
 			String LName = request.getParameter("LName");
 			if (LName == null)
 				throw new IllegalArgumentException("Please enter the name of airline");
-			pStmt = conn.prepareStatement("SELECT LID FROM airline WHERE LName=?");
-			pStmt.setString(1, LName);
-			rs = pStmt.executeQuery();
-
-			if (!rs.next())
-				throw new IllegalArgumentException("No such airline");
-			int LID = rs.getInt("LID");
 			
 			String TSeat_text = request.getParameter("TSeat");
 			int TSeat;
@@ -145,18 +123,23 @@ public class AddTicket extends HttpServlet {
 				throw new IllegalArgumentException("Illegal mileage");
 			}
 			
-			pStmt = conn.prepareStatement("INSERT INTO airticket(CID, LID, TDTime, TATime, TMileage, TSeat, PDID, PAID)"
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement pStmt = conn.prepareStatement("INSERT INTO airticket(CID, LID, TDTime, TATime, TMileage, TSeat, PDID, PAID) "
+					+ "SELECT ?, airline.LID, ?, ?, ?, ?, PD.PID, PA.PID "
+					+ "FROM airline, airport PD, airport PA "
+					+ "WHERE airline.LName = ? "
+					+ "AND PD.PCity = ? "
+					+ "AND PA.PCity = ?");
 			pStmt.setInt(1, cid);
-			pStmt.setInt(2, LID);
-			pStmt.setTimestamp(3, TDTime);
-			pStmt.setTimestamp(4, TATime);
-			pStmt.setInt(5, TMileage);
-			pStmt.setInt(6, TSeat);
-			pStmt.setInt(7, PDID);
-			pStmt.setInt(8, PAID);
+			pStmt.setTimestamp(2, TDTime);
+			pStmt.setTimestamp(3, TATime);
+			pStmt.setInt(4, TMileage);
+			pStmt.setInt(5, TSeat);
+			pStmt.setString(6, LName);
+			pStmt.setString(7, PDCity);
+			pStmt.setString(8, PACity);
 			
-			pStmt.execute();
+			if (pStmt.executeUpdate() == 0)
+				throw new IllegalArgumentException("Illegal parameters. Please checks a airport name or airline name.");
 			
 			response.sendRedirect("/airticketDB/TicketTable?CID=" + cid.toString());
 		}
