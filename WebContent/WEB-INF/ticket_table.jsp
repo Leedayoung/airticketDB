@@ -9,6 +9,9 @@
 </head>
 <body>
 Hello ${CName}! You are ${param.CID}. <br>
+<a href="/airticketDB/add_ticket.jsp?CID=${param.CID}">Add Ticket</a> 
+<a href="/airticketDB/delete_ticket.jsp?CID=${param.CID}">Delete Ticket</a> 
+<a href="/airticketDB/update_user_info.jsp?CID=${param.CID}">Change User Information</a>
 <table border="1">
 	<thead>
 		<tr>
