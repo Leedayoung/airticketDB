@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" import="java.util.List, data.Ticket" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,16 +24,19 @@ Hello ${CName}! You are ${param.CID}. <br>
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${tickets}" var="ticket">
+		<%
+			List<Ticket> tickets = (List<Ticket>) request.getAttribute("tickets");	
+			for (Ticket ticket : tickets) {
+		%>
 			<tr>
-				<td>${ticket.airportDName}</td>
-				<td>${ticket.ticketDTime}</td>
-				<td>${ticket.airportAName}</td>
-				<td>${ticket.ticketATime}</td>
-				<td>${ticket.ticketSeat}</td>
-				<td>${ticket.airlineName}</td>
+				<td><%= ticket.getAirportDName() %></td>
+				<td><%= ticket.getTicketDTime() %></td>
+				<td><%= ticket.getAirportAName() %></td>
+				<td><%= ticket.getTicketATime() %></td>
+				<td><%= ticket.getTicketSeat() %></td>
+				<td><%= ticket.getAirlineName() %></td>
 			</tr>
-		</c:forEach>
+		<% } %>
 	</tbody>
 </table>
 </body>
