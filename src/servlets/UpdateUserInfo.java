@@ -36,7 +36,7 @@ public class UpdateUserInfo extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Logger logger = Logger.getLogger(Signup.class.getName());
+		Logger logger = Logger.getLogger(UpdateUserInfo.class.getName());
 
 		Integer cid = null;
 

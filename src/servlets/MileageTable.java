@@ -40,7 +40,7 @@ public class MileageTable extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Logger logger = Logger.getLogger(TicketTable.class.getName());
+		Logger logger = Logger.getLogger(MileageTable.class.getName());
 
 		String cid_text = request.getParameter("CID");
 		Integer cid = null;

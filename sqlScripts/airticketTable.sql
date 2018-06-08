@@ -1,14 +1,18 @@
 CREATE TABLE airticket(
-	CID INT NOT NULL references client(CID),
-	LID INT NOT NULL references airline(LID),
+	CID INT NOT NULL,
+	LID INT NOT NULL,
 	TDTime DATETIME NOT NULL,
 	TATime DATETIME NOT NULL,
 	TMileage INT NOT NULL,
 	TSeat INT NOT NULL,
-	PDID INT NOT NULL references airport(PID),
-	PAID INT NOT NULL references airport(PID),
+	PDID INT NOT NULL,
+	PAID INT NOT NULL,
 
-	primary key(CID,LID,TDTime)
+	primary key (CID,LID,TDTime),
+	foreign key (CID) references client(CID) ON DELETE CASCADE,
+	foreign key (LID) references airline(LID) ON DELETE RESTRICT,
+	foreign key (PDID) references airport(PID) ON DELETE RESTRICT,
+	foreign key (PAID) references airport(PID) ON DELETE RESTRICT
 );
 
 INSERT INTO airticket(CID, LID, TDTime, TATime, TMileage, TSeat, PDID, PAID)

@@ -3,11 +3,8 @@ package servlets;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,16 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class DeleteTicket
+ * Servlet implementation class MembershipWithdrawal
  */
-@WebServlet("/DeleteTicket")
-public class DeleteTicket extends HttpServlet {
+@WebServlet("/MembershipWithdrawal")
+public class MembershipWithdrawal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteTicket() {
+    public MembershipWithdrawal() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,7 +34,7 @@ public class DeleteTicket extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Logger logger = Logger.getLogger(DeleteTicket.class.getName());
+		Logger logger = Logger.getLogger(MembershipWithdrawal.class.getName());
 
 		String cid_text = request.getParameter("CID");
 		Integer cid = null;
@@ -63,47 +60,21 @@ public class DeleteTicket extends HttpServlet {
 		}
 		
 		Connection conn = null;
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/11739592_airticketDB?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true", "student", "student");
 			
-			String PDCity = request.getParameter("PDCity");
-
-			if (PDCity == null)
-				throw new IllegalArgumentException("Please enter the departure city");
+			Statement stmt = conn.createStatement();
+			stmt.execute("DELETE FROM client WHERE CID = " + cid.toString());
 			
-			String TDDate_text = request.getParameter("TDDate");
-			String TDTime_text = request.getParameter("TDTime");	
-			
-			if (TDDate_text == null || TDTime_text == null)
-				throw new IllegalArgumentException("Please enter the dates and times");
-			
-			Timestamp TDTime;
-			try {
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-				TDTime = new Timestamp(formatter.parse(TDDate_text + " " + TDTime_text + ":00").getTime());
-			}
-			catch (ParseException exc){
-				throw new IllegalArgumentException("Illegal Date Format (yyyy.MM.dd hh:mm)");
-			}
-
-			PreparedStatement pStmt = conn.prepareStatement("DELETE FROM airticket "
-					+ "WHERE CID = ? and TDTime = ? "
-					+ "and PDID IN (Select PID FROM airport WHERE PCity = ?)");
-			pStmt.setInt(1, cid);
-			pStmt.setTimestamp(2, TDTime);
-			pStmt.setString(3, PDCity);
-			
-			if (pStmt.executeUpdate() == 0)
-				throw new IllegalArgumentException("No such ticket. Please check a airport name");
-			
-			response.sendRedirect("/airticketDB/TicketTable?CID=" + cid.toString());
+			response.sendRedirect("/airticketDB/index.html");
 		}
 		catch(IllegalArgumentException exc) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/error.jsp");
 			request.setAttribute("msg", exc.getMessage());
-			request.setAttribute("return_page", "/airticketDB/TicketTable?CID=" + cid.toString());
+			request.setAttribute("return_page", "/airticketDB/index.html");
 			view.forward(request, response);
 		}
 		catch(ClassNotFoundException | SQLException exc) {
