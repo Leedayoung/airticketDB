@@ -80,7 +80,7 @@ public class Signup extends HttpServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/11739592_airticketDB?serverTimezone=UTC", "student", "student");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/11739592_airticketDB?serverTimezone=UTC&useSSL=false", "student", "student");
 			
 			Statement Stmt = conn.createStatement();
 			ResultSet rs = Stmt.executeQuery("SELECT MAX(CID) FROM client");
