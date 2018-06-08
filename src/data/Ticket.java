@@ -1,4 +1,4 @@
-package DataTypes;
+package data;
 
 public class Ticket {
 	private String airportDName;

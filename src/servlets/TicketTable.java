@@ -1,4 +1,4 @@
-package Servlets;
+package servlets;
 
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DataTypes.Ticket;
+import data.Ticket;
 
 /**
  * Servlet implementation class TicketTable
@@ -62,7 +62,7 @@ public class TicketTable extends HttpServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/11739592_airticketDB?serverTimezone=UTC&useSSL=false", "student", "student");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/11739592_airticketDB?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true", "student", "student");
 			
 			Statement Stmt = conn.createStatement();
 			ResultSet rs = Stmt.executeQuery("SELECT CName FROM client WHERE client.CID = " + cid.toString());
