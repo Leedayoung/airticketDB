@@ -7,7 +7,7 @@
 <title>Mileage Table</title>
 </head>
 <body>
-Your Mileages. <br>
+Your Mileages having 100 points or more. <br>
 <table border="1">
 	<thead>
 		<tr>

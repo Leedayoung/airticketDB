@@ -66,17 +66,18 @@ public class MileageTable extends HttpServlet {
 			
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT LUnion, SUM(TMileage) "
+			ResultSet rs = stmt.executeQuery("SELECT LUnion, SUM(TMileage) as Sum_Mileage "
 					+ "FROM airticket, airline "
 					+ "WHERE CID = " + cid.toString() + " "
 					+ "AND airticket.LID = airline.LID "
-					+ "GROUP BY LUnion");
+					+ "GROUP BY LUnion "
+					+ "Having Sum_Mileage >= 100");
 			
 			List<AirUnion> unions = new ArrayList<AirUnion>();
 			while (rs.next()) {
 				AirUnion union = new AirUnion();
 				union.setUnionName(rs.getString("LUnion"));
-				union.setMileage(rs.getInt("SUM(TMileage)"));
+				union.setMileage(rs.getInt("Sum_Mileage"));
 				unions.add(union);
 			}
 
