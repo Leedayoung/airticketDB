@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,16 +46,22 @@ public class Signup extends HttpServlet {
 		boolean gender;
 
 		try {
-			if (name == null || age_text == null || gender_text == null || nation == null)
+			if (name == null)
 				throw new IllegalArgumentException("Illegal Name");
 			
 			try {
+				if (age_text == null)
+					throw new IllegalArgumentException("Illegal Age");
+
 				age = Integer.valueOf(age_text);
 			}
 			catch (NumberFormatException exc) {
 				throw new IllegalArgumentException("Illegal Age");
 			}
-			
+
+			if (gender_text == null)
+				throw new IllegalArgumentException("Illegal Gender");
+
 			switch (gender_text) {
 			case "male":
 				gender = true;
@@ -67,9 +74,15 @@ public class Signup extends HttpServlet {
 			default:
 				throw new IllegalArgumentException("Illegal Gender");
 			}
+			
+			if (nation == null)
+				throw new IllegalArgumentException("Illegal Nationality");
 		}
 		catch (IllegalArgumentException exc) {
-			response.sendRedirect("/airticketDB/index.html");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/error.jsp");
+			request.setAttribute("msg", exc.getMessage());
+			request.setAttribute("return_page", "/airticketDB/index.html");
+			view.forward(request, response);
 			return;
 		}
 		
@@ -113,7 +126,10 @@ public class Signup extends HttpServlet {
 
 			exc.printStackTrace();
 			
-			response.sendRedirect("/airticketDB/index.html");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/error.jsp");
+			request.setAttribute("msg", "Internal Server Error");
+			request.setAttribute("return_page", "/airticketDB/index.html");
+			view.forward(request, response);
 		}
 		finally
 		{

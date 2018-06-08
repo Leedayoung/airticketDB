@@ -51,7 +51,10 @@ public class TicketTable extends HttpServlet {
 			cid = Integer.valueOf(cid_text);
 		}
 		catch (IllegalArgumentException exc){
-			response.sendRedirect("/airticketDB/index.html");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/error.jsp");
+			request.setAttribute("msg", "Please Enter CID");
+			request.setAttribute("return_page", "/airticketDB/index.html");
+			view.forward(request, response);
 			return;
 		}
 
@@ -99,7 +102,10 @@ public class TicketTable extends HttpServlet {
 			view.forward(request, response);
 		}
 		catch(IllegalArgumentException exc) {
-			response.sendRedirect("/airticketDB/index.html");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/error.jsp");
+			request.setAttribute("msg", "No such CID");
+			request.setAttribute("return_page", "/airticketDB/index.html");
+			view.forward(request, response);
 		}
 		catch(ClassNotFoundException | SQLException exc) {
 			if (exc instanceof ClassNotFoundException)
@@ -109,7 +115,10 @@ public class TicketTable extends HttpServlet {
 
 			exc.printStackTrace();
 			
-			response.sendRedirect("/airticketDB/index.html");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/error.jsp");
+			request.setAttribute("msg", "Internal Server Error");
+			request.setAttribute("return_page", "/airticketDB/index.html");
+			view.forward(request, response);
 		}
 		finally
 		{
