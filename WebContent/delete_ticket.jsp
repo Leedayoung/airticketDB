@@ -9,7 +9,7 @@
 <body>
 <form method="get" action="/airticketDB/DeleteTicket">
 	<input type="hidden" name="CID" value="${param.CID}">
-	The departure airport location city: <input type="text" name="PDCity"/> <br>
+	The airline name: <input type="text" name="LName"/> <br>
 	The departure date: <input type="date" name="TDDate"/> <br>
 	The departure time: <input type="time" name="TDTime"/> <br>
 	<input type="submit" value="Delete Ticket"/>

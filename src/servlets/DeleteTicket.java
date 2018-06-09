@@ -68,10 +68,10 @@ public class DeleteTicket extends HttpServlet {
 
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/11739592_airticketDB?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true", "student", "student");
 			
-			String PDCity = request.getParameter("PDCity");
+			String LName = request.getParameter("LName");
 
-			if (PDCity == null)
-				throw new IllegalArgumentException("Please enter the departure city");
+			if (LName == null)
+				throw new IllegalArgumentException("Please enter the airline name");
 			
 			String TDDate_text = request.getParameter("TDDate");
 			String TDTime_text = request.getParameter("TDTime");	
@@ -90,13 +90,13 @@ public class DeleteTicket extends HttpServlet {
 
 			PreparedStatement pStmt = conn.prepareStatement("DELETE FROM airticket "
 					+ "WHERE CID = ? and TDTime = ? "
-					+ "and PDID IN (Select PID FROM airport WHERE PCity = ?)");
+					+ "and LID IN (Select LID FROM airline WHERE LName = ?)");
 			pStmt.setInt(1, cid);
 			pStmt.setTimestamp(2, TDTime);
-			pStmt.setString(3, PDCity);
+			pStmt.setString(3, LName);
 			
 			if (pStmt.executeUpdate() == 0)
-				throw new IllegalArgumentException("No such ticket. Please check a airport name");
+				throw new IllegalArgumentException("No such ticket. Please check the airline name");
 			
 			response.sendRedirect("/airticketDB/TicketTable?CID=" + cid.toString());
 		}
