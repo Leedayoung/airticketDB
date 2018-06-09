@@ -18,12 +18,12 @@ Your Mileages having 1000 points or more. <br>
 	<tbody>
 		<%
 			@SuppressWarnings("unchecked")
-			List<Alliance> unions = (List<Alliance>) request.getAttribute("alliances");	
-			for (Alliance union : unions) {
+			List<Alliance> alliances = (List<Alliance>) request.getAttribute("alliances");	
+			for (Alliance alliance : alliances) {
 		%>
 			<tr>
-				<td><%= union.getName() %></td>
-				<td><%= union.getMileage() %></td>
+				<td><%= alliance.getName() %></td>
+				<td><%= alliance.getMileage() %></td>
 			</tr>
 		<% } %>
 	</tbody>
