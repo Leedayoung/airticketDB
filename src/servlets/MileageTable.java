@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import data.Alliance;
-import data.Ticket;
 
 /**
  * Servlet implementation class MileageTable
@@ -71,7 +70,7 @@ public class MileageTable extends HttpServlet {
 					+ "WHERE CID = " + cid.toString() + " "
 					+ "AND airticket.LID = airline.LID "
 					+ "GROUP BY LAlliance "
-					+ "Having Sum_Mileage >= 100");
+					+ "Having Sum_Mileage >= 1000");
 			
 			List<Alliance> alliances = new ArrayList<Alliance>();
 			while (rs.next()) {

@@ -1,13 +1,13 @@
-<%@ page language="java" import="java.util.List,data.Alliance" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" import="java.util.List,data.Alliance" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Mileage Table</title>
 </head>
 <body>
-Your Mileages having 100 points or more. <br>
+Your Mileages having 1000 points or more. <br>
 <table border="1">
 	<thead>
 		<tr>
@@ -17,6 +17,7 @@ Your Mileages having 100 points or more. <br>
 	</thead>
 	<tbody>
 		<%
+			@SuppressWarnings("unchecked")
 			List<Alliance> unions = (List<Alliance>) request.getAttribute("alliances");	
 			for (Alliance union : unions) {
 		%>
