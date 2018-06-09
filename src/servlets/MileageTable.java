@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import data.AirUnion;
+import data.Alliance;
 import data.Ticket;
 
 /**
@@ -66,23 +66,23 @@ public class MileageTable extends HttpServlet {
 			
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT LUnion, SUM(TMileage) as Sum_Mileage "
+			ResultSet rs = stmt.executeQuery("SELECT LAlliance, SUM(TMileage) as Sum_Mileage "
 					+ "FROM airticket, airline "
 					+ "WHERE CID = " + cid.toString() + " "
 					+ "AND airticket.LID = airline.LID "
-					+ "GROUP BY LUnion "
+					+ "GROUP BY LAlliance "
 					+ "Having Sum_Mileage >= 100");
 			
-			List<AirUnion> unions = new ArrayList<AirUnion>();
+			List<Alliance> alliances = new ArrayList<Alliance>();
 			while (rs.next()) {
-				AirUnion union = new AirUnion();
-				union.setUnionName(rs.getString("LUnion"));
-				union.setMileage(rs.getInt("Sum_Mileage"));
-				unions.add(union);
+				Alliance alliance = new Alliance();
+				alliance.setName(rs.getString("LAlliance"));
+				alliance.setMileage(rs.getInt("Sum_Mileage"));
+				alliances.add(alliance);
 			}
 
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/mileage_table.jsp");
-			request.setAttribute("unions", unions);
+			request.setAttribute("alliances", alliances);
 
 			view.forward(request, response);
 		}

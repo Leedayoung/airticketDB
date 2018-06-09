@@ -1,15 +1,15 @@
 package data;
 
-public class AirUnion {
-	private String unionName;
+public class Alliance {
+	private String name;
 	private int mileage;
 	
-	public String getUnionName() {
-		return unionName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setUnionName(String unionName) {
-		this.unionName = unionName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public int getMileage() {
