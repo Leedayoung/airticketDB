@@ -7,6 +7,6 @@ CREATE TABLE client(
 );
 
 INSERT INTO client(CID, CName, CAge, CGender, CNation)
-	VALUES (1, "Dayeong", 24, TRUE, "Korean"),
-	(2, "Hojun", 24, FALSE, "Korean"),
-	(3, "Danniel", 25, FALSE, "British")
+	VALUES (1, "Dayeong", 24, TRUE, "Korea"),
+	(2, "Hojun", 24, FALSE, "Korea"),
+	(3, "Danniel", 25, FALSE, "Britain")
