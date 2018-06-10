@@ -64,11 +64,11 @@ public class Signup extends HttpServlet {
 
 			switch (gender_text) {
 			case "male":
-				gender = true;
+				gender = false;
 				break;
 
 			case "female":
-				gender = false;
+				gender = true;
 				break;
 
 			default:

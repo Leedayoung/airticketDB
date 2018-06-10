@@ -13,6 +13,7 @@ Hello ${CName}! You are ${param.CID}. <br>
 <a href="/airticketDB/update_user_info.jsp?CID=${param.CID}">Change User Information</a>
 <a href="/airticketDB/MileageTable?CID=${param.CID}">Check Your Mileages</a> 
 <a href="/airticketDB/MembershipWithdrawal?CID=${param.CID}">Membership Withdrawal</a>
+<a href="/airticketDB/NationalCarrier?CID=${param.CID}">Find national carriers of your country</a>
 <table border="1">
 	<thead>
 		<tr>
